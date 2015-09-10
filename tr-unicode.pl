@@ -94,6 +94,8 @@ Interpreted sequences are:
   NOT IMPLEMENTED, TODO:
   [CHAR*]         in SET2, copies of CHAR until length of SET1
   [CHAR*REPEAT]   REPEAT copies of CHAR, REPEAT octal if starting with 0
+
+  Directly not supported:
   [:alnum:]       all letters and digits
   [:alpha:]       all letters
   [:blank:]       all horizontal whitespace
@@ -129,12 +131,23 @@ END_HELPTEXT
     exit;
 }
 
+# Custom quoting function
+sub quote {
+   # The extended patterns should be here
+   # ...
+   # Escape everything
+   my $text = quotemeta;
+   # quotemeta is too greedy, remove some escapes
+   $text =~ s/\\(-|\\[abfnrtv]|\\[0-7]{3})/$1/gmpu;
+   return $text;
+}
+
 # Make 'tr operator in a subroutine' as string
 my $subtr = sprintf('sub {
 	my ( $text ) = @_;
 	$text =~ tr/%s/%s/%s;
 	return $text;
-};', map (quotemeta, $orig, $repl, $opt));
+};', map (quote, $orig, $repl, $opt));
 
 # Check
 #print("$subtr\n");
@@ -169,5 +182,5 @@ operating on $_
 
 # Process each line from STDIN and only STDIN!
 foreach my $LINE ( <STDIN> ) {
-print(&$tr($LINE));
+    print(&$tr($LINE));
 }
