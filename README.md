@@ -1,7 +1,7 @@
 # tr-unicode
 The Unix tr command reimplemented in Perl, augmented with (minimal) Unicode support
 
-GNU tr has no support for Unicode. It works on bytes and its 8-bit clean.
+[GNU tr has no support for Unicode.](https://lists.gnu.org/archive/html/bug-coreutils/2009-02/msg00028.html) [It works on bytes and its 8-bit clean.](https://git.savannah.gnu.org/cgit/coreutils.git/commit/src/tr.c?id=8d3dce9861c15f06a014c91fa29c15143fd27127)
 
 Therefore on UTF-8 text *strange* errors occur *randomly* as a *feature*.
 For example:
@@ -11,6 +11,8 @@ For example:
 This implementation is trying to provide a fix for this issue with minimal Unicode support.
 
 **Bug reports and patch requests are welcome on the project site!**
+
+Note: [The tr implementation of *uutils coreutils* written in Rust](https://github.com/uutils/coreutils) [has Unicode support](https://github.com/uutils/coreutils/blob/6988eb7ec64eff10d2ebf001c7fef845c04336d5/tests/by-util/test_tr.rs)
 
 ## Invocation
 
